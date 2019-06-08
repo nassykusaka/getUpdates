@@ -1,6 +1,7 @@
 package nassy.runners;
 
 import nassy.pages.MainPage;
+import nassy.pages.SchedulePage;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
 import org.testng.ITestResult;
@@ -14,7 +15,8 @@ public class MainRunner {
 
     @BeforeClass
     public void setUp(){
-
+        logger.info("Running script");
+        mainPage = new MainPage().openURL(URL);
     }
 
     @AfterClass
@@ -36,9 +38,9 @@ public class MainRunner {
         }
     }
 
-    @Test
-    public void checkNearestDate(){
-
+    @Test(dataProvider = "testData")
+    public void checkNearestDate(String locationName){
+        SchedulePage schedulePage = mainPage.goToSchedule(locationName);
     }
 
     @DataProvider
