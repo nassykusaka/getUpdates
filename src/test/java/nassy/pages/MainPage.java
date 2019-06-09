@@ -14,14 +14,22 @@ public class MainPage extends AbstractPage {
         return this;
     }
 
-    public SchedulePage goToSchedule(String location){
+    public MainPage chooseLanguage(String language){
+        By activeLanguageLocator = By.xpath("//span[@class='metanavigation__active-item-content']/abbr[@title='" + language + "']");
+        logger.info("Check if desired language is chosen");
+        if (driver.findElements(activeLanguageLocator).isEmpty()){
+            logger.info("Choosing " + language);
+            driver.findElement(By.xpath("//abbr[@title='" + language + "']/../..")).click();
+        }
+        return this;
+    }
 
+    public SchedulePage goToSchedule(String location){
         driver.findElement(SERVICE_LINK_LOCATOR).click();
         wait.until(ExpectedConditions.titleContains("Service"));
         driver.findElement(SCHEDULE_LINK_LOCATOR).click();
         By LOCATION_LINK_LOCATOR = By.xpath("//strong[text()='" + location + "']/..");
         driver.findElement(LOCATION_LINK_LOCATOR).click();
-
         String parentWindow = driver.getWindowHandle();
         logger.info("Switch to the opened window");
         for (String winHandle: driver.getWindowHandles()){
@@ -29,5 +37,4 @@ public class MainPage extends AbstractPage {
         }
         return new SchedulePage();
     }
-
 }
