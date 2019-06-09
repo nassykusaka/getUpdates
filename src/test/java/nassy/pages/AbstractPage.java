@@ -1,9 +1,11 @@
 package nassy.pages;
 
 import org.apache.log4j.Logger;
+import org.openqa.selenium.Cookie;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.logging.LogEntries;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import selenium.core.ui.DriverSingleton;
 import java.io.File;
@@ -12,11 +14,11 @@ import org.apache.commons.io.FileUtils;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 public class AbstractPage {
-    protected WebDriver driver;
-    protected WebDriverWait wait;
+    WebDriver driver;
+    WebDriverWait wait;
     private final static Logger logger = Logger.getLogger(AbstractPage.class);
 
-    public AbstractPage(WebDriver driver) {
+    AbstractPage() {
         this.driver = DriverSingleton.getWebDriverInstance();
         wait = new WebDriverWait(driver, 60);
     }
@@ -33,7 +35,7 @@ public class AbstractPage {
         }
     }
 
-    public static void pause(int i){
+    static void pause(int i){
         try{
             SECONDS.sleep(i);
         } catch (InterruptedException e) {
@@ -51,5 +53,21 @@ public class AbstractPage {
         } catch (IOException e){
             logger.error("Failed to take screenshot");
         }
+    }
+
+    public void grabBrowserLog(){
+        LogEntries logs = driver.manage().logs().get("browser");
+        logger.info(logs);
+    }
+
+    public void setCookie(String name, String value, String domain, String path){
+        logger.info("Setting cookies");
+        Cookie cookie = new Cookie.Builder(name, value)
+                .domain(domain)
+                .isHttpOnly(true)
+                .path(path)
+                .build();
+
+        driver.manage().addCookie(cookie);
     }
 }
