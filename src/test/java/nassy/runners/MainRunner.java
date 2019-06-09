@@ -1,7 +1,6 @@
 package nassy.runners;
 
 import nassy.pages.MainPage;
-import nassy.pages.SchedulePage;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
 import org.testng.ITestResult;
@@ -9,18 +8,23 @@ import org.testng.annotations.*;
 import selenium.core.ui.DriverSingleton;
 
 public class MainRunner {
-    private static final String URL = System.getProperty("url");
+    private static final String URL =  System.getProperty("url");
     private final static Logger logger = Logger.getLogger(MainRunner.class);
+    private static final String LOCATION = System.getProperty("locationName");
+    private static final String APP_TYPE = System.getProperty("appointmentType");
+    private static final String SUB_TYPE = System.getProperty("subType");
     private MainPage mainPage;
 
     @BeforeClass
     public void setUp(){
         logger.info("Running script");
-        mainPage = new MainPage().openURL(URL);
+        mainPage = new MainPage().openURL(URL).chooseLanguage("English");
+        mainPage.grabBrowserLog();
     }
 
     @AfterClass
     public void tearDown(){
+        mainPage.grabBrowserLog();
         logger.info("Closing browser");
         DriverSingleton.kill();
     }
@@ -39,16 +43,14 @@ public class MainRunner {
     }
 
     @Test(dataProvider = "testData")
-    public void checkNearestDate(String locationName){
-        SchedulePage schedulePage = mainPage.goToSchedule(locationName);
+    public void checkNearestDate(String locationName, String appointmentType, String subType){
+        Assert.assertEquals(1, mainPage.goToSchedule(locationName).chooseAppointmentType(appointmentType, subType));
     }
 
     @DataProvider
     public Object[][] testData(){
         return new Object[][]{
-                {"Some data#1"},
-                {"Some data#2"}
+                {LOCATION, APP_TYPE, SUB_TYPE}
         };
     }
-
 }
