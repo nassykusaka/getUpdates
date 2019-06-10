@@ -19,7 +19,7 @@ public class AbstractPage {
     private final static Logger logger = Logger.getLogger(AbstractPage.class);
 
     AbstractPage() {
-        this.driver = DriverSingleton.getWebDriverInstance();
+        this.driver = DriverSingleton.getWebDriverInstance("local");
         wait = new WebDriverWait(driver, 60);
     }
 

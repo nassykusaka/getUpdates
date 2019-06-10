@@ -6,7 +6,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
@@ -14,8 +13,7 @@ import java.util.concurrent.TimeUnit;
 
 public class DriverSingleton {
 
-    private DriverSingleton() {
-    }
+    private DriverSingleton() {}
 
     private static WebDriver driver;
     private final static Logger logger = Logger.getLogger(DriverSingleton.class);

@@ -19,6 +19,7 @@ public class MainPage extends AbstractPage {
         logger.info("Check if desired language is chosen");
         if (driver.findElements(activeLanguageLocator).isEmpty()){
             logger.info("Choosing " + language);
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//abbr[@title='" + language + "']/../..")));
             driver.findElement(By.xpath("//abbr[@title='" + language + "']/../..")).click();
         }
         return this;
