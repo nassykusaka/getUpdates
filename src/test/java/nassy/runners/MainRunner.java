@@ -8,11 +8,11 @@ import org.testng.annotations.*;
 import selenium.core.ui.DriverSingleton;
 
 public class MainRunner {
-    private static final String URL =  System.getProperty("url");
+    private final String URL =  System.getenv("url");
     private final static Logger logger = Logger.getLogger(MainRunner.class);
-    private static final String LOCATION = System.getProperty("locationName");
-    private static final String APP_TYPE = System.getProperty("appointmentType");
-    private static final String SUB_TYPE = System.getProperty("subType");
+    private final String LOCATION = System.getenv("locationName");
+    private final String APP_TYPE = System.getenv("appointmentType");
+    private final String SUB_TYPE = System.getenv("subType");
     private MainPage mainPage;
 
     @BeforeClass
